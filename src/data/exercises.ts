@@ -1,0 +1,415 @@
+export interface Exercise {
+  id: string;
+  name: string;
+  muscleGroup: string;
+  secondaryMuscles: string[];
+  equipment: string;
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  type: "Strength" | "Cardio" | "Flexibility" | "Olympic";
+  instructions: string[];
+  tips: string[];
+  sets?: string;
+  reps?: string;
+  imageUrl?: string;
+}
+
+export const muscleGroups = [
+  { id: "chest", name: "Chest", icon: "💪", count: 8 },
+  { id: "back", name: "Back", icon: "🔙", count: 10 },
+  { id: "shoulders", name: "Shoulders", icon: "🏋️", count: 8 },
+  { id: "biceps", name: "Biceps", icon: "💪", count: 6 },
+  { id: "triceps", name: "Triceps", icon: "🦾", count: 6 },
+  { id: "legs", name: "Legs", icon: "🦵", count: 12 },
+  { id: "core", name: "Core", icon: "🎯", count: 8 },
+  { id: "glutes", name: "Glutes", icon: "🍑", count: 6 },
+];
+
+export const exercises: Exercise[] = [
+  {
+    id: "bench-press",
+    name: "Barbell Bench Press",
+    muscleGroup: "chest",
+    secondaryMuscles: ["Triceps", "Front Deltoids"],
+    equipment: "Barbell, Flat Bench",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Lie flat on a bench with your feet on the floor.",
+      "Grip the barbell slightly wider than shoulder-width.",
+      "Unrack the bar and lower it to your mid-chest.",
+      "Press the bar up until your arms are fully extended.",
+      "Repeat for the desired number of repetitions.",
+    ],
+    tips: [
+      "Keep your shoulder blades retracted throughout the movement.",
+      "Maintain a slight arch in your lower back.",
+      "Control the descent — don't bounce the bar off your chest.",
+    ],
+    sets: "4",
+    reps: "8-12",
+  },
+  {
+    id: "incline-dumbbell-press",
+    name: "Incline Dumbbell Press",
+    muscleGroup: "chest",
+    secondaryMuscles: ["Triceps", "Front Deltoids"],
+    equipment: "Dumbbells, Incline Bench",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Set an adjustable bench to a 30-45 degree incline.",
+      "Hold a dumbbell in each hand at shoulder level.",
+      "Press the dumbbells up until arms are extended.",
+      "Lower the dumbbells back to the starting position.",
+    ],
+    tips: [
+      "Don't let the dumbbells drift too far apart at the top.",
+      "Keep your elbows at a 45-degree angle.",
+    ],
+    sets: "3",
+    reps: "10-12",
+  },
+  {
+    id: "cable-flyes",
+    name: "Cable Flyes",
+    muscleGroup: "chest",
+    secondaryMuscles: ["Front Deltoids"],
+    equipment: "Cable Machine",
+    difficulty: "Beginner",
+    type: "Strength",
+    instructions: [
+      "Stand in the center of a cable crossover machine.",
+      "Grab the handles with arms extended wide.",
+      "Bring your hands together in front of your chest in an arc.",
+      "Slowly return to the starting position.",
+    ],
+    tips: [
+      "Maintain a slight bend in your elbows throughout.",
+      "Focus on squeezing the chest at the peak contraction.",
+    ],
+    sets: "3",
+    reps: "12-15",
+  },
+  {
+    id: "deadlift",
+    name: "Conventional Deadlift",
+    muscleGroup: "back",
+    secondaryMuscles: ["Hamstrings", "Glutes", "Core", "Traps"],
+    equipment: "Barbell",
+    difficulty: "Advanced",
+    type: "Strength",
+    instructions: [
+      "Stand with feet hip-width apart, barbell over mid-foot.",
+      "Bend at the hips and knees to grip the bar shoulder-width.",
+      "Keep your back flat and chest up.",
+      "Drive through your heels to stand up with the bar.",
+      "Lower the bar back to the floor with control.",
+    ],
+    tips: [
+      "Keep the bar close to your body throughout the lift.",
+      "Don't round your lower back.",
+      "Engage your lats to keep the bar from drifting forward.",
+    ],
+    sets: "5",
+    reps: "5",
+  },
+  {
+    id: "pull-ups",
+    name: "Pull-Ups",
+    muscleGroup: "back",
+    secondaryMuscles: ["Biceps", "Rear Deltoids"],
+    equipment: "Pull-Up Bar",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Hang from a pull-up bar with an overhand grip.",
+      "Pull yourself up until your chin clears the bar.",
+      "Lower yourself back to a full hang with control.",
+    ],
+    tips: [
+      "Avoid swinging or using momentum.",
+      "Focus on pulling with your back, not just your arms.",
+      "Start with assisted variations if needed.",
+    ],
+    sets: "4",
+    reps: "8-12",
+  },
+  {
+    id: "barbell-row",
+    name: "Barbell Bent-Over Row",
+    muscleGroup: "back",
+    secondaryMuscles: ["Biceps", "Rear Deltoids", "Core"],
+    equipment: "Barbell",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Stand with feet shoulder-width, knees slightly bent.",
+      "Hinge forward at the hips to about 45 degrees.",
+      "Pull the barbell to your lower chest/upper abdomen.",
+      "Lower the bar back down with control.",
+    ],
+    tips: [
+      "Keep your back flat throughout the movement.",
+      "Drive your elbows back, not just up.",
+    ],
+    sets: "4",
+    reps: "8-10",
+  },
+  {
+    id: "overhead-press",
+    name: "Overhead Press",
+    muscleGroup: "shoulders",
+    secondaryMuscles: ["Triceps", "Upper Chest", "Core"],
+    equipment: "Barbell",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Stand with feet shoulder-width apart.",
+      "Hold the barbell at shoulder level with an overhand grip.",
+      "Press the bar overhead until arms are fully extended.",
+      "Lower the bar back to shoulder level.",
+    ],
+    tips: [
+      "Brace your core throughout the movement.",
+      "Don't lean back excessively.",
+      "Move your head slightly back as the bar passes your face.",
+    ],
+    sets: "4",
+    reps: "6-8",
+  },
+  {
+    id: "lateral-raises",
+    name: "Dumbbell Lateral Raises",
+    muscleGroup: "shoulders",
+    secondaryMuscles: ["Traps"],
+    equipment: "Dumbbells",
+    difficulty: "Beginner",
+    type: "Strength",
+    instructions: [
+      "Stand with a dumbbell in each hand at your sides.",
+      "Raise the dumbbells out to the sides until shoulder height.",
+      "Lower back down slowly.",
+    ],
+    tips: [
+      "Lead with your elbows, not your hands.",
+      "Don't swing the weight — use control.",
+      "Slight bend in the elbows throughout.",
+    ],
+    sets: "4",
+    reps: "12-15",
+  },
+  {
+    id: "barbell-curl",
+    name: "Barbell Curl",
+    muscleGroup: "biceps",
+    secondaryMuscles: ["Forearms"],
+    equipment: "Barbell",
+    difficulty: "Beginner",
+    type: "Strength",
+    instructions: [
+      "Stand with feet shoulder-width, holding a barbell underhand.",
+      "Curl the bar up to shoulder height.",
+      "Lower the bar back down with control.",
+    ],
+    tips: [
+      "Keep your elbows pinned at your sides.",
+      "Don't use your back to swing the weight up.",
+    ],
+    sets: "3",
+    reps: "10-12",
+  },
+  {
+    id: "hammer-curls",
+    name: "Hammer Curls",
+    muscleGroup: "biceps",
+    secondaryMuscles: ["Brachialis", "Forearms"],
+    equipment: "Dumbbells",
+    difficulty: "Beginner",
+    type: "Strength",
+    instructions: [
+      "Hold dumbbells at your sides with palms facing each other.",
+      "Curl the weights up while keeping palms facing inward.",
+      "Lower back down with control.",
+    ],
+    tips: [
+      "Great for building overall arm thickness.",
+      "Keep your elbows stationary.",
+    ],
+    sets: "3",
+    reps: "10-12",
+  },
+  {
+    id: "tricep-dips",
+    name: "Tricep Dips",
+    muscleGroup: "triceps",
+    secondaryMuscles: ["Chest", "Front Deltoids"],
+    equipment: "Parallel Bars",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Mount the parallel bars with arms extended.",
+      "Lower your body by bending your elbows to 90 degrees.",
+      "Push back up to the starting position.",
+    ],
+    tips: [
+      "Keep your body upright to emphasize triceps.",
+      "Leaning forward shifts focus to the chest.",
+    ],
+    sets: "3",
+    reps: "10-15",
+  },
+  {
+    id: "skull-crushers",
+    name: "Skull Crushers",
+    muscleGroup: "triceps",
+    secondaryMuscles: [],
+    equipment: "EZ Bar, Flat Bench",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Lie on a flat bench holding an EZ bar above your forehead.",
+      "Lower the bar toward your forehead by bending at the elbows.",
+      "Extend your arms to return to the starting position.",
+    ],
+    tips: [
+      "Keep your upper arms stationary.",
+      "Control the descent — don't drop the bar.",
+    ],
+    sets: "3",
+    reps: "10-12",
+  },
+  {
+    id: "barbell-squat",
+    name: "Barbell Back Squat",
+    muscleGroup: "legs",
+    secondaryMuscles: ["Glutes", "Core", "Lower Back"],
+    equipment: "Barbell, Squat Rack",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Position the barbell on your upper back/traps.",
+      "Stand with feet shoulder-width apart.",
+      "Lower your body by bending at the knees and hips.",
+      "Descend until your thighs are parallel to the floor.",
+      "Drive through your heels to stand back up.",
+    ],
+    tips: [
+      "Keep your knees tracking over your toes.",
+      "Maintain a neutral spine throughout.",
+      "Depth is important — aim for at least parallel.",
+    ],
+    sets: "5",
+    reps: "5",
+  },
+  {
+    id: "leg-press",
+    name: "Leg Press",
+    muscleGroup: "legs",
+    secondaryMuscles: ["Glutes"],
+    equipment: "Leg Press Machine",
+    difficulty: "Beginner",
+    type: "Strength",
+    instructions: [
+      "Sit in the leg press machine with your back flat against the pad.",
+      "Place your feet shoulder-width on the platform.",
+      "Lower the platform by bending your knees toward your chest.",
+      "Press the platform back up without locking your knees.",
+    ],
+    tips: [
+      "Don't let your lower back round off the pad.",
+      "Adjust foot placement to target different muscles.",
+    ],
+    sets: "4",
+    reps: "10-12",
+  },
+  {
+    id: "romanian-deadlift",
+    name: "Romanian Deadlift",
+    muscleGroup: "legs",
+    secondaryMuscles: ["Glutes", "Lower Back"],
+    equipment: "Barbell",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Hold a barbell with an overhand grip at hip height.",
+      "Push your hips back while lowering the bar along your legs.",
+      "Feel a stretch in your hamstrings.",
+      "Drive your hips forward to return to standing.",
+    ],
+    tips: [
+      "Keep the bar close to your body.",
+      "Only go as low as your hamstring flexibility allows.",
+    ],
+    sets: "4",
+    reps: "8-10",
+  },
+  {
+    id: "plank",
+    name: "Plank",
+    muscleGroup: "core",
+    secondaryMuscles: ["Shoulders", "Glutes"],
+    equipment: "None",
+    difficulty: "Beginner",
+    type: "Strength",
+    instructions: [
+      "Start in a push-up position on your forearms.",
+      "Keep your body in a straight line from head to heels.",
+      "Hold this position for the desired duration.",
+    ],
+    tips: [
+      "Don't let your hips sag or pike up.",
+      "Breathe normally throughout the hold.",
+    ],
+    sets: "3",
+    reps: "30-60 sec",
+  },
+  {
+    id: "hanging-leg-raise",
+    name: "Hanging Leg Raise",
+    muscleGroup: "core",
+    secondaryMuscles: ["Hip Flexors"],
+    equipment: "Pull-Up Bar",
+    difficulty: "Advanced",
+    type: "Strength",
+    instructions: [
+      "Hang from a pull-up bar with arms extended.",
+      "Raise your legs until they're parallel to the floor.",
+      "Lower back down with control.",
+    ],
+    tips: [
+      "Avoid swinging — use strict form.",
+      "For added difficulty, raise legs higher or keep them straight.",
+    ],
+    sets: "3",
+    reps: "12-15",
+  },
+  {
+    id: "hip-thrust",
+    name: "Barbell Hip Thrust",
+    muscleGroup: "glutes",
+    secondaryMuscles: ["Hamstrings", "Core"],
+    equipment: "Barbell, Bench",
+    difficulty: "Intermediate",
+    type: "Strength",
+    instructions: [
+      "Sit on the floor with your upper back against a bench.",
+      "Roll a barbell over your hips.",
+      "Drive through your heels to lift your hips until fully extended.",
+      "Lower back down with control.",
+    ],
+    tips: [
+      "Squeeze your glutes hard at the top.",
+      "Keep your chin tucked throughout.",
+    ],
+    sets: "4",
+    reps: "10-12",
+  },
+];
+
+export function getExercisesByMuscleGroup(muscleGroup: string): Exercise[] {
+  return exercises.filter((e) => e.muscleGroup === muscleGroup);
+}
+
+export function getExerciseById(id: string): Exercise | undefined {
+  return exercises.find((e) => e.id === id);
+}
