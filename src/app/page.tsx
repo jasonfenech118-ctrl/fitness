@@ -70,15 +70,15 @@ export default function Home() {
             Find your rhythm
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-tight mb-6">
-            Train smarter.
+            Small steps.
             <br />
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Live stronger.
+              Honest progress.
             </span>
           </h1>
           <p className="text-lg md:text-xl text-muted max-w-xl mx-auto mb-10">
-            PulseFit is your space for movement, nutrition, and community —
-            built around your pace, not someone else&apos;s.
+            We&apos;re a small corner of the internet for everyday movement,
+            simple food, and good company. No hype — just showing up.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link
