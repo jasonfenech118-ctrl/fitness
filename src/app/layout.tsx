@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IronForge Fitness | Workouts, Nutrition & Supplements",
+  title: "PulseFit | Train Smarter, Live Stronger",
   description:
-    "Your ultimate fitness destination. Workout plans, exercise database, nutrition guides, supplements, and a thriving community.",
+    "PulseFit — your space for workouts, exercises, nutrition, and community.",
 };
 
 export default function RootLayout({
