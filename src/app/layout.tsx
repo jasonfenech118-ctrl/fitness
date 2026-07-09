@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PulseFit | Train Smarter, Live Stronger",
+  title: "Pulse | Confidence and Motivation That Last",
   description:
-    "PulseFit — your space for workouts, exercises, nutrition, and community.",
+    "Pulse — training and nutrition guidance grounded in science and designed for real life.",
 };
 
 export default function RootLayout({

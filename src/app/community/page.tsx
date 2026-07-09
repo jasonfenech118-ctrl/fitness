@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Community | PulseFit",
+  title: "Community | Pulse",
 };
 
 export default function CommunityPage() {

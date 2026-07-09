@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Plans | PulseFit",
+  title: "Plans | Pulse",
 };
 
 export default function PlansPage() {

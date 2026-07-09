@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Store | PulseFit",
+  title: "Store | Pulse",
 };
 
 export default function StorePage() {

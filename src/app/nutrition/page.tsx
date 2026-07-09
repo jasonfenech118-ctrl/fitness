@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Nutrition | PulseFit",
+  title: "Nutrition | Pulse",
 };
 
 export default function NutritionPage() {

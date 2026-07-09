@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Workouts | PulseFit",
+  title: "Workouts | Pulse",
 };
 
 export default function WorkoutsPage() {
