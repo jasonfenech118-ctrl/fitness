@@ -67,18 +67,19 @@ export default function Home() {
         <div className="relative max-w-6xl mx-auto px-4 py-24 md:py-36 text-center">
           <div className="inline-flex items-center gap-2 bg-surface border border-border rounded-full px-4 py-1.5 text-sm text-muted mb-8">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            Find your rhythm
+            Our mission
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-tight mb-6">
-            Small steps.
+            Confidence and
             <br />
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Honest progress.
+              motivation that last.
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-muted max-w-xl mx-auto mb-10">
-            We&apos;re a small corner of the internet for everyday movement,
-            simple food, and good company. No hype — just showing up.
+          <p className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-10">
+            Our mission is to help you build the confidence and motivation to
+            keep going — with training and nutrition guidance grounded in
+            science and designed for real life.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link
