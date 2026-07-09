@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { mealPlans, recipes, supplements } from "@/data/nutrition";
+import { mealPlans, recipes } from "@/data/nutrition";
 
 export default function NutritionPage() {
-  const [activeTab, setActiveTab] = useState<"meals" | "recipes" | "supplements" | "calculator">("meals");
+  const [activeTab, setActiveTab] = useState<"meals" | "recipes" | "calculator">("meals");
   const [calories, setCalories] = useState<number | null>(null);
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
@@ -42,7 +42,7 @@ export default function NutritionPage() {
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl">
             Fuel your gains with our expert meal plans, muscle-building recipes,
-            supplement guides, and calorie calculator.
+            and calorie calculator.
           </p>
         </div>
       </section>
@@ -53,7 +53,6 @@ export default function NutritionPage() {
             {[
               { id: "meals" as const, label: "Meal Plans" },
               { id: "recipes" as const, label: "Recipes" },
-              { id: "supplements" as const, label: "Supplements" },
               { id: "calculator" as const, label: "Calorie Calculator" },
             ].map((tab) => (
               <button
@@ -250,69 +249,6 @@ export default function NutritionPage() {
                   </div>
                 </div>
               ))}
-            </div>
-          )}
-
-          {activeTab === "supplements" && (
-            <div id="supplements" className="space-y-6">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {supplements.map((supp) => (
-                  <div
-                    key={supp.id}
-                    className="bg-surface border border-border rounded-xl p-6"
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-bold text-primary uppercase">
-                        {supp.category}
-                      </span>
-                      <div className="flex items-center gap-1">
-                        <span className="text-yellow-400 text-sm">★</span>
-                        <span className="text-sm font-bold">{supp.rating}</span>
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">{supp.name}</h3>
-                    <p className="text-sm text-muted mb-4">
-                      {supp.description}
-                    </p>
-                    <div className="space-y-2 mb-4">
-                      {supp.benefits.map((benefit) => (
-                        <div key={benefit} className="flex items-start gap-2 text-sm">
-                          <svg
-                            className="w-4 h-4 text-success flex-shrink-0 mt-0.5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          {benefit}
-                        </div>
-                      ))}
-                    </div>
-                    <div className="border-t border-border pt-4 space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted">Dosage</span>
-                        <span className="font-medium">{supp.dosage}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted">Timing</span>
-                        <span className="font-medium">{supp.timing}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted">Price</span>
-                        <span className="font-bold text-primary">
-                          {supp.price}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           )}
 
