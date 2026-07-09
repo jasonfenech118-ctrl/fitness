@@ -2,4 +2,4 @@
 2:I[39756,["/fitness/_next/static/chunks/3n_jpcks458cp.js","/fitness/_next/static/chunks/14mrh2-p_w84d.js"],"default"]
 3:I[37457,["/fitness/_next/static/chunks/3n_jpcks458cp.js","/fitness/_next/static/chunks/14mrh2-p_w84d.js"],"default"]
 4:[]
-0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"npwa2liAxSafCu4lN0zPq"}
+0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"6xe_Qzc2BB6W7QtVhDZFT"}
