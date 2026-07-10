@@ -38,14 +38,14 @@ const sections = [
     ),
   },
   {
-    label: "Community",
-    href: "/community",
-    description: "Connect with people on the same journey.",
+    label: "Health",
+    href: "/health",
+    description: "Sleep, recovery, and everyday wellbeing.",
     icon: (
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6-4a3 3 0 11-3-3m-12 3a3 3 0 103-3"
+        d="M12 4v16m8-8H4"
       />
     ),
   },
@@ -89,10 +89,10 @@ export default function Home() {
               Start Moving
             </Link>
             <Link
-              href="/community"
+              href="/health"
               className="bg-surface border border-border hover:border-primary px-8 py-3.5 rounded-full font-semibold transition-colors"
             >
-              Join the Community
+              Explore Health
             </Link>
           </div>
         </div>

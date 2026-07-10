@@ -4,7 +4,7 @@ const footerLinks = [
   { label: "Workouts", href: "/workouts" },
   { label: "Exercises", href: "/exercises" },
   { label: "Nutrition", href: "/nutrition" },
-  { label: "Community", href: "/community" },
+  { label: "Health", href: "/health" },
   { label: "Plans", href: "/plans" },
 ];
 
