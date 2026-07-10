@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[75772,["/fitness/_next/static/chunks/165cfudqqplkg.js","/fitness/_next/static/chunks/14mrh2-p_w84d.js","/fitness/_next/static/chunks/3u5qscsdsscin.js"],"default"]
+3:I[97367,["/fitness/_next/static/chunks/165cfudqqplkg.js","/fitness/_next/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[["$","section",null,{"className":"max-w-6xl mx-auto px-4 py-20","children":[["$","h1",null,{"className":"text-4xl md:text-5xl font-black tracking-tight","children":"Food Library"}],["$","p",null,{"className":"text-muted mt-3 mb-10 max-w-xl","children":"Nutrition facts for everyday foods. Search the library, or ask the AI about anything that isn't listed."}],["$","$L2",null,{}]]}],[["$","script","script-0",{"src":"/fitness/_next/static/chunks/3u5qscsdsscin.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"6wjC8gukEmY6Y6JykTani"}
+5:null
