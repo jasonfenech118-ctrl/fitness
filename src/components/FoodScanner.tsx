@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Anthropic from "@anthropic-ai/sdk";
+import {
+  GEMINI_KEY_STORAGE,
+  GeminiError,
+  geminiGenerate,
+  getBuiltInKey,
+  getStoredKey,
+} from "@/lib/gemini";
 
 interface FoodItem {
   name: string;
@@ -25,59 +31,56 @@ interface ScanResult {
   notes: string;
 }
 
+const MACROS_SCHEMA = {
+  type: "OBJECT",
+  required: ["calories", "protein_g", "carbs_g", "fat_g"],
+  properties: {
+    calories: { type: "NUMBER" },
+    protein_g: { type: "NUMBER" },
+    carbs_g: { type: "NUMBER" },
+    fat_g: { type: "NUMBER" },
+  },
+};
+
 const NUTRITION_SCHEMA = {
-  type: "object",
-  additionalProperties: false,
+  type: "OBJECT",
   required: ["is_food", "meal_name", "items", "totals", "notes"],
   properties: {
     is_food: {
-      type: "boolean",
+      type: "BOOLEAN",
       description: "Whether the image actually contains food or drink",
     },
     meal_name: {
-      type: "string",
+      type: "STRING",
       description: "Short name for the meal, e.g. 'Grilled chicken with rice'",
     },
     items: {
-      type: "array",
+      type: "ARRAY",
       description: "Each distinct food item visible in the image",
       items: {
-        type: "object",
-        additionalProperties: false,
+        type: "OBJECT",
         required: ["name", "portion", "calories", "protein_g", "carbs_g", "fat_g"],
         properties: {
-          name: { type: "string" },
+          name: { type: "STRING" },
           portion: {
-            type: "string",
+            type: "STRING",
             description: "Estimated portion size, e.g. '150 g' or '1 cup'",
           },
-          calories: { type: "number" },
-          protein_g: { type: "number" },
-          carbs_g: { type: "number" },
-          fat_g: { type: "number" },
+          calories: { type: "NUMBER" },
+          protein_g: { type: "NUMBER" },
+          carbs_g: { type: "NUMBER" },
+          fat_g: { type: "NUMBER" },
         },
       },
     },
-    totals: {
-      type: "object",
-      additionalProperties: false,
-      required: ["calories", "protein_g", "carbs_g", "fat_g"],
-      properties: {
-        calories: { type: "number" },
-        protein_g: { type: "number" },
-        carbs_g: { type: "number" },
-        fat_g: { type: "number" },
-      },
-    },
+    totals: MACROS_SCHEMA,
     notes: {
-      type: "string",
+      type: "STRING",
       description:
         "Brief note on estimation confidence or anything unclear in the image",
     },
   },
-} as const;
-
-const API_KEY_STORAGE = "pulse_anthropic_api_key";
+};
 
 function resizeImage(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -104,8 +107,9 @@ function resizeImage(file: File): Promise<string> {
 }
 
 export default function FoodScanner() {
+  const builtInKey = getBuiltInKey();
   const [apiKey, setApiKey] = useState("");
-  const [keySaved, setKeySaved] = useState(false);
+  const [keyReady, setKeyReady] = useState(Boolean(builtInKey));
   const [showKeySetup, setShowKeySetup] = useState(false);
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
   const [scanning, setScanning] = useState(false);
@@ -113,26 +117,27 @@ export default function FoodScanner() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem(API_KEY_STORAGE);
+    if (builtInKey) return; // site key configured — nothing to ask
+    const stored = getStoredKey();
     if (stored) {
       setApiKey(stored);
-      setKeySaved(true);
+      setKeyReady(true);
     } else {
       setShowKeySetup(true);
     }
-  }, []);
+  }, [builtInKey]);
 
   function saveKey() {
     if (!apiKey.trim()) return;
-    localStorage.setItem(API_KEY_STORAGE, apiKey.trim());
-    setKeySaved(true);
+    localStorage.setItem(GEMINI_KEY_STORAGE, apiKey.trim());
+    setKeyReady(true);
     setShowKeySetup(false);
   }
 
   function clearKey() {
-    localStorage.removeItem(API_KEY_STORAGE);
+    localStorage.removeItem(GEMINI_KEY_STORAGE);
     setApiKey("");
-    setKeySaved(false);
+    setKeyReady(false);
     setShowKeySetup(true);
   }
 
@@ -149,61 +154,30 @@ export default function FoodScanner() {
   }
 
   async function analyze() {
-    if (!imageDataUrl || !apiKey) return;
+    if (!imageDataUrl) return;
     setScanning(true);
     setError(null);
     setResult(null);
 
     try {
-      const client = new Anthropic({
-        apiKey: apiKey.trim(),
-        dangerouslyAllowBrowser: true,
-      });
-
       const base64 = imageDataUrl.split(",")[1];
-
-      const response = await client.messages.create({
-        model: "claude-opus-4-8",
-        max_tokens: 2000,
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "image",
-                source: {
-                  type: "base64",
-                  media_type: "image/jpeg",
-                  data: base64,
-                },
-              },
-              {
-                type: "text",
-                text: "Identify the food in this photo and estimate its nutritional content. List each distinct item with an estimated portion size and its calories, protein, carbs, and fat. Base estimates on typical portion sizes and standard nutritional databases. If the image does not contain food, set is_food to false.",
-              },
-            ],
-          },
-        ],
-        output_config: {
-          format: { type: "json_schema", schema: NUTRITION_SCHEMA },
-        },
+      const text = await geminiGenerate({
+        prompt:
+          "Identify the food in this photo and estimate its nutritional content. List each distinct item with an estimated portion size and its calories, protein, carbs, and fat. Base estimates on typical portion sizes and standard nutritional databases. If the image does not contain food, set is_food to false.",
+        imageBase64: base64,
+        responseSchema: NUTRITION_SCHEMA,
       });
-
-      const textBlock = response.content.find(
-        (b): b is Anthropic.TextBlock => b.type === "text",
-      );
-      if (!textBlock) throw new Error("Empty response");
-      const parsed: ScanResult = JSON.parse(textBlock.text);
+      const parsed: ScanResult = JSON.parse(text);
       setResult(parsed);
     } catch (err) {
-      if (err instanceof Anthropic.AuthenticationError) {
+      if (err instanceof GeminiError && (err.status === 400 || err.status === 401 || err.status === 403)) {
         setError(
-          "That API key was rejected. Check it and save it again in settings.",
+          builtInKey
+            ? "The site's AI key was rejected — the site owner needs to check it."
+            : "That API key was rejected. Check it and save it again.",
         );
-      } else if (err instanceof Anthropic.RateLimitError) {
-        setError("Rate limited — wait a moment and try again.");
-      } else if (err instanceof Anthropic.APIError) {
-        setError(`The analysis failed (${err.status ?? "error"}). Try again.`);
+      } else if (err instanceof GeminiError && err.status === 429) {
+        setError("The AI is busy right now — wait a moment and try again.");
       } else {
         setError("Something went wrong analyzing the photo. Try again.");
       }
@@ -214,60 +188,61 @@ export default function FoodScanner() {
 
   return (
     <div className="max-w-2xl">
-      {/* API key setup */}
-      <div className="mb-6">
-        {keySaved && !showKeySetup ? (
-          <div className="flex items-center gap-3 text-sm text-muted">
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-success" />
-              AI connected
-            </span>
-            <button
-              onClick={() => setShowKeySetup(true)}
-              className="underline hover:text-primary"
-            >
-              Change key
-            </button>
-            <button onClick={clearKey} className="underline hover:text-primary">
-              Remove key
-            </button>
-          </div>
-        ) : (
-          <div className="bg-surface border border-border rounded-3xl p-6">
-            <h3 className="font-bold mb-2">Connect the AI</h3>
-            <p className="text-sm text-muted mb-4">
-              The scanner uses Claude to read your photo. Paste an Anthropic API
-              key (from{" "}
-              <a
-                href="https://console.anthropic.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="text-primary underline"
-              >
-                console.anthropic.com
-              </a>
-              ). It&apos;s stored only in this browser — it never leaves your
-              device except to call the AI directly.
-            </p>
-            <div className="flex gap-2">
-              <input
-                type="password"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="sk-ant-..."
-                className="flex-1 px-4 py-2.5 bg-background border border-border rounded-full text-sm focus:outline-none focus:border-primary"
-              />
+      {/* API key setup — hidden entirely when the site has a built-in key */}
+      {!builtInKey && (
+        <div className="mb-6">
+          {keyReady && !showKeySetup ? (
+            <div className="flex items-center gap-3 text-sm text-muted">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-success" />
+                AI connected
+              </span>
               <button
-                onClick={saveKey}
-                disabled={!apiKey.trim()}
-                className="bg-primary hover:bg-primary-dark disabled:opacity-40 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-colors"
+                onClick={() => setShowKeySetup(true)}
+                className="underline hover:text-primary"
               >
-                Save
+                Change key
+              </button>
+              <button onClick={clearKey} className="underline hover:text-primary">
+                Remove key
               </button>
             </div>
-          </div>
-        )}
-      </div>
+          ) : (
+            <div className="bg-surface border border-border rounded-3xl p-6">
+              <h3 className="font-bold mb-2">Connect the AI</h3>
+              <p className="text-sm text-muted mb-4">
+                The scanner uses Google Gemini to read your photo. Paste a free
+                API key from{" "}
+                <a
+                  href="https://aistudio.google.com/apikey"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary underline"
+                >
+                  Google AI Studio
+                </a>
+                . It&apos;s stored only in this browser.
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder="AIza..."
+                  className="flex-1 px-4 py-2.5 bg-background border border-border rounded-full text-sm focus:outline-none focus:border-primary"
+                />
+                <button
+                  onClick={saveKey}
+                  disabled={!apiKey.trim()}
+                  className="bg-primary hover:bg-primary-dark disabled:opacity-40 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-colors"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Photo input */}
       <div className="bg-surface border border-border rounded-3xl p-6">
@@ -320,7 +295,7 @@ export default function FoodScanner() {
           <div className="flex gap-2 mt-4">
             <button
               onClick={analyze}
-              disabled={scanning || !keySaved}
+              disabled={scanning || !keyReady}
               className="flex-1 bg-primary hover:bg-primary-dark disabled:opacity-40 text-white py-3 rounded-full font-semibold transition-colors"
             >
               {scanning ? "Analyzing…" : "Scan Nutrition"}
@@ -337,7 +312,7 @@ export default function FoodScanner() {
             </button>
           </div>
         )}
-        {!keySaved && imageDataUrl && (
+        {!keyReady && imageDataUrl && (
           <p className="text-xs text-muted mt-2">
             Connect the AI above to enable scanning.
           </p>
