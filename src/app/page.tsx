@@ -125,6 +125,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Topics */}
+      <section className="max-w-6xl mx-auto px-4 pb-24">
+        <h2 className="text-2xl font-black tracking-tight mb-2 text-center">
+          Explore topics
+        </h2>
+        <p className="text-muted text-sm text-center mb-8">
+          Guides for every part of the journey — body and mind.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          {[
+            { label: "Know Your Body", href: "/know-your-body" },
+            { label: "Motivation", href: "/motivation" },
+            { label: "Fat Loss", href: "/fat-loss" },
+            { label: "Keto Diet", href: "/keto" },
+            { label: "Exercise Library", href: "/exercises" },
+            { label: "Mental Health", href: "/mental-health" },
+            { label: "Men's Health", href: "/mens-health" },
+            { label: "Skin Care", href: "/skin-care" },
+            { label: "Custom Meals", href: "/custom-meals" },
+          ].map((topic) => (
+            <Link
+              key={topic.href}
+              href={topic.href}
+              className="bg-surface border border-border hover:border-primary hover:text-primary px-5 py-2.5 rounded-full text-sm font-semibold transition-colors"
+            >
+              {topic.label}
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-4 pb-24">
         <div className="bg-gradient-to-r from-primary to-secondary text-white rounded-3xl px-8 py-16 text-center">
