@@ -14,22 +14,13 @@ const navLinks = [
 function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2.5 shrink-0">
-      <div className="w-9 h-9 rounded-2xl bg-foreground flex items-center justify-center">
-        <svg className="w-4.5 h-4.5 text-background" viewBox="0 0 24 24" fill="none">
-          <circle
-            cx="12"
-            cy="12"
-            r="8"
-            stroke="currentColor"
-            strokeWidth="2"
-            opacity="0.35"
-          />
-          <circle cx="12" cy="12" r="3.5" fill="currentColor" />
-        </svg>
-      </div>
-      <span className="font-black text-xl tracking-tight lowercase">
-        pulse<span className="text-primary">.</span>
-      </span>
+      <svg className="w-8 h-8 text-primary" viewBox="0 0 36 36" fill="currentColor">
+        <rect x="4" y="14" width="5" height="8" rx="2.5" />
+        <rect x="12" y="8" width="5" height="20" rx="2.5" />
+        <rect x="20" y="3" width="5" height="30" rx="2.5" />
+        <rect x="28" y="11" width="5" height="14" rx="2.5" />
+      </svg>
+      <span className="font-black text-xl tracking-tight lowercase">pulse</span>
     </Link>
   );
 }
