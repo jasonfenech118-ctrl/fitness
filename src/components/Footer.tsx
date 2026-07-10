@@ -13,6 +13,7 @@ const topics = [
   { label: "Motivation", href: "/motivation" },
   { label: "Fat Loss", href: "/fat-loss" },
   { label: "Keto Diet", href: "/keto" },
+  { label: "Food Library", href: "/food-library" },
   { label: "Mental Health", href: "/mental-health" },
   { label: "Men's Health", href: "/mens-health" },
   { label: "Skin Care", href: "/skin-care" },
